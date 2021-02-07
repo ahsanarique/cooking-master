@@ -6,10 +6,11 @@ const mealApi = {
 
 const mealList = document.getElementById("meal-list");
 
+// Updates main page upon search
 const updateResult = (data) => {
   const mealCardList = data.map((card) => {
     const cardList = `<div>
-    <div class="card col m-4" style="width: 18rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <div class="card col m-4 shadow rounded border-0" style="width: 18rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">
     <div id="${card.idMeal}" class="view-ingredients">
     <img src="${card.strMealThumb}" class="card-img-top" alt="...">
     <h5 class="card-title text-center card-body">${card.strMeal}</h5>
@@ -28,6 +29,7 @@ const updateResult = (data) => {
 
   mealList.innerHTML = innerHTMLCard;
 
+  // Event listeners for meal cards
   const ingredientsSection = [
     ...document.querySelectorAll(".view-ingredients"),
   ];
@@ -38,15 +40,18 @@ const updateResult = (data) => {
     });
   });
 
+  // Function for ingredient list
   const getIngredients = async (id) => {
+    // Fetching single meal item data
     const mealDetails = await fetch(`${mealApi.details}${id}`);
     const ingredientDetails = await mealDetails.json();
     const ingredientsDataset = [...ingredientDetails.meals][0];
-    console.log(ingredientsDataset);
 
+    // HTML elements to generate list
     const ingredientTitle = document.querySelector(".ingredient-title");
     const ingredientDiv = document.getElementById("ingredient-div");
 
+    // Creating list
     let ingredientList = ``;
 
     for (let i = 1; i <= 20; i++) {
@@ -67,6 +72,7 @@ const updateResult = (data) => {
     ingredientTitle.innerText = ingredientsDataset.strMeal;
     ingredientDiv.innerHTML = `<div class="w-100"><img class="w-100" src="${ingredientsDataset.strMealThumb}" alt=""></div>
       <div class=mt-4>
+      <h3>Ingredients:</h3>
       <ul>
       ${ingredientList}
       </ul>
@@ -74,15 +80,19 @@ const updateResult = (data) => {
   };
 };
 
-// Fetching Data from API
+// Fetching Meal Data from API
 const getMealData = async (name) => {
-  const mealData = await fetch(`${mealApi.url}${name}`);
+  try {
+    const mealData = await fetch(`${mealApi.url}${name}`);
 
-  const mealNames = await mealData.json();
-  const mealDataset = [...mealNames.meals];
+    const mealNames = await mealData.json();
+    const mealDataset = [...mealNames.meals];
 
-  updateResult(mealDataset);
-  console.log(mealDataset);
+    updateResult(mealDataset);
+    console.log(mealDataset);
+  } catch (error) {
+    alert("The item by your given input is not found");
+  }
 };
 
 // Search Input and event listener
@@ -94,6 +104,6 @@ searchButton.addEventListener("click", () => {
     getMealData(searchInput.value);
     console.log(searchInput.value);
   } else {
-    console.log("Item by your given input is not found");
+    alert("The item by your given input is not found");
   }
 });
