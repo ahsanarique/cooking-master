@@ -1,22 +1,19 @@
 const mealApi = {
   url: "https://www.themealdb.com/api/json/v1/1/search.php?s=",
-  imageUrl: "https://www.themealdb.com/images/media/meals",
 };
-
-const searchInput = document.getElementById("search-input");
-const searchButton = document.getElementById("search-btn");
 
 const mealList = document.getElementById("meal-list");
 
 const updateResult = (data) => {
   const mealCardList = data.map((card) => {
     const cardList = `<div class="card col m-4" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
+    <img src="${card.strMealThumb}" class="card-img-top" alt="...">
     <div class="card-body">
     <h5 class="card-title">${card.strMeal}</h5>
-    <a href="#" class="btn btn-warning">View Ingredients</a>
+    <a href="#" class="btn btn-warning view-ingredients" data-bs-toggle="modal" data-bs-target="#exampleModal">View Ingredients</a>
     </div>
     </div>`;
+
     return cardList;
   });
 
@@ -25,25 +22,34 @@ const updateResult = (data) => {
     innerHTML += mealCardList[i];
   }
   mealList.innerHTML = innerHTML;
+
+  const ingredientsBtn = [...document.querySelectorAll(".view-ingredients")];
+
+  ingredientsBtn.forEach((item) => {
+    item.addEventListener("click", () => {
+      console.log("clicked");
+    });
+  });
+};
+
+const getIngredients = (data) => {
+  data.map((x) => {
+    const ingredients = ``;
+  });
 };
 
 const getMealData = async (name) => {
   const mealData = await fetch(`${mealApi.url}${name}`);
 
-  const mealImgData = await fetch(
-    "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/preview"
-  );
-
   const mealNames = await mealData.json();
   const mealDataset = [...mealNames.meals];
-  const mealImg = await mealImgData.blob();
-
-  const imgUrl = URL.createObjectURL(mealImg);
 
   updateResult(mealDataset);
-
-  console.log(mealDataset);
+  // console.log(mealDataset);
 };
+
+const searchInput = document.getElementById("search-input");
+const searchButton = document.getElementById("search-btn");
 
 searchButton.addEventListener("click", () => {
   if (searchInput.value !== "") {
@@ -53,6 +59,3 @@ searchButton.addEventListener("click", () => {
     console.log("Item by your given input is not found");
   }
 });
-
-// need to concat images with data
-// pop-up carousel with no auto-moving
