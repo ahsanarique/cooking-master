@@ -63,9 +63,9 @@ const updateResult = (data) => {
         ingredientsDataset[`strIngredient${i}`] !== " " &&
         ingredientsDataset[`strIngredient${i}`] !== null
       ) {
-        ingredientList += `<li>${ingredientsDataset[`strMeasure${i}`]} ${
-          ingredientsDataset[`strIngredient${i}`]
-        }</li>`;
+        ingredientList += `<li><i class="bi bi-file-earmark-check-fill"></i>${
+          ingredientsDataset[`strMeasure${i}`]
+        } ${ingredientsDataset[`strIngredient${i}`]}</li>`;
       }
     }
 
