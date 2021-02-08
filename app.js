@@ -89,7 +89,6 @@ const getMealData = async (name) => {
     const mealDataset = [...mealNames.meals];
 
     updateResult(mealDataset);
-    console.log(mealDataset);
   } catch (error) {
     alert("The item by your given input is not found");
   }
@@ -102,7 +101,6 @@ const searchButton = document.getElementById("search-btn");
 searchButton.addEventListener("click", () => {
   if (searchInput.value !== "") {
     getMealData(searchInput.value);
-    console.log(searchInput.value);
   } else {
     alert("The item by your given input is not found");
   }
