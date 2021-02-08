@@ -4,10 +4,10 @@ const mealApi = {
   details: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=",
 };
 
-const mealList = document.getElementById("meal-list");
-
 // Updates main page upon search
 const updateResult = (data) => {
+  const mealList = document.getElementById("meal-list");
+
   const mealCardList = data.map((card) => {
     const cardList = `<div>
     <div class="card col m-4 shadow rounded border-0" style="width: 18rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">
