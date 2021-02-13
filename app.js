@@ -28,6 +28,7 @@ const updateResult = (data) => {
   });
 
   mealList.innerHTML = innerHTMLCard;
+  toggleSpinner("loading-spinner-main");
 
   // Event listeners for meal cards
   const ingredientsSection = [
@@ -80,6 +81,11 @@ const updateResult = (data) => {
   };
 };
 
+const toggleSpinner = (id) => {
+  const spinner = document.getElementById(id);
+  spinner.classList.toggle("d-none");
+};
+
 // Fetching Meal Data from API
 const getMealData = async (name) => {
   try {
@@ -100,6 +106,7 @@ const searchButton = document.getElementById("search-btn");
 
 searchButton.addEventListener("click", () => {
   if (searchInput.value !== "") {
+    toggleSpinner("loading-spinner-main");
     getMealData(searchInput.value);
   } else {
     alert("The item by your given input is not found");
