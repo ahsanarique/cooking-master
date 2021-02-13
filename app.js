@@ -4,10 +4,15 @@ const mealApi = {
   details: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=",
 };
 
+// Meal list
+const mealList = document.getElementById("meal-list");
+
+// HTML elements to generate ingredient list
+const ingredientTitle = document.querySelector(".ingredient-title");
+const ingredientDiv = document.getElementById("ingredient-div");
+
 // Updates main page upon search
 const updateResult = (data) => {
-  const mealList = document.getElementById("meal-list");
-
   const mealCardList = data.map((card) => {
     const cardList = `<div>
     <div class="card col m-4 shadow rounded border-0" style="width: 18rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -37,6 +42,7 @@ const updateResult = (data) => {
 
   ingredientsSection.forEach((item) => {
     item.addEventListener("click", (e) => {
+      ingredientDiv.innerHTML = "";
       getIngredients(e.target.parentNode.id);
     });
   });
@@ -47,10 +53,6 @@ const updateResult = (data) => {
     const mealDetails = await fetch(`${mealApi.details}${id}`);
     const ingredientDetails = await mealDetails.json();
     const ingredientsDataset = [...ingredientDetails.meals][0];
-
-    // HTML elements to generate list
-    const ingredientTitle = document.querySelector(".ingredient-title");
-    const ingredientDiv = document.getElementById("ingredient-div");
 
     // Creating list
     let ingredientList = ``;
@@ -106,6 +108,7 @@ const searchButton = document.getElementById("search-btn");
 
 searchButton.addEventListener("click", () => {
   if (searchInput.value !== "") {
+    mealList.innerHTML = "";
     toggleSpinner("loading-spinner-main");
     getMealData(searchInput.value);
   } else {
@@ -115,6 +118,7 @@ searchButton.addEventListener("click", () => {
 
 searchInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter" && searchInput.value !== "") {
+    mealList.innerHTML = "";
     toggleSpinner("loading-spinner-main");
     getMealData(searchInput.value);
   }
