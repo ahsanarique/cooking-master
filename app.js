@@ -112,3 +112,10 @@ searchButton.addEventListener("click", () => {
     alert("The item by your given input is not found");
   }
 });
+
+searchInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter" && searchInput.value !== "") {
+    toggleSpinner("loading-spinner-main");
+    getMealData(searchInput.value);
+  }
+});
